@@ -1,0 +1,6 @@
+﻿  Shape.cpp
+  main.cpp
+c:\users\marci\documents\visual studio 2015\projects\moonlander\moonlander\main.cpp(421): warning C4018: '<': signed/unsigned mismatch
+  Cone.cpp
+  Generating Code...
+  MoonLander.vcxproj -> c:\users\marci\documents\visual studio 2015\Projects\MoonLander\Debug\MoonLander.exe
