@@ -14,6 +14,7 @@ class Roller : public Shape {
 public:
 
 	Roller(Vector3f* position, Vector3f* color, float radius, float resolution,float height);
+	Roller();
 	~Roller();
 	virtual void draw();
 

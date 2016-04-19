@@ -27,6 +27,8 @@ void World::render()
 
 void World::populate()
 {
-	Shape *shape = new Cone();
-	shapes.push_back(shape);
+	
+	shapes.push_back(new Cone());
+	shapes.push_back(new Circle());
+	shapes.push_back(new Roller());
 }

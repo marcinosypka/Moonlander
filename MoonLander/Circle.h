@@ -11,6 +11,7 @@ class Circle : public Shape {
 public:
 
 	Circle(Vector3f* position, Vector3f* color, float radius=10, float resolution=20, int GL_STRONA = GL_CCW);
+	Circle();
 	~Circle();
 	virtual void draw();
 

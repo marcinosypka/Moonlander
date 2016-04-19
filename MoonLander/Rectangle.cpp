@@ -18,6 +18,7 @@ void Rectangle::draw() {
 	glColor3fv(color->toArray());
 
 	glBegin(GL_TRIANGLE_STRIP);
+
 	glEnd();
 
 
