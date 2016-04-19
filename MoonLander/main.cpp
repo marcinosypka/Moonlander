@@ -4,8 +4,10 @@
 #include <gl\glu.h> 
 #include <iostream>
 #include <iostream>
-#include "Simulation.h"
 #include "RESOURCE.H"
+#include "Shape.h"
+#include "Cone.h"
+#include "vector3f.h"
 
 const LPCTSTR lpszAppName = (LPCTSTR)"MoonLander";
 static HINSTANCE hInstance;
@@ -331,6 +333,10 @@ void RenderScene(void)
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
 	ukladWspolrzednych();
+	Vector3f *polozenie = new Vector3f(0, 0, 0);
+	Vector3f *kolor = new Vector3f(1, 0, 0);
+	Shape *test = new Cone(polozenie,kolor,10,5,20,100);
+	test->draw();
 	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
 	glPolygonMode(GL_BACK, GL_LINE);
 	glPopMatrix();
@@ -756,7 +762,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			DialogBox(hInstance,
 				MAKEINTRESOURCE(IDD_DIALOG_ABOUT),
 				hWnd,
-				AboutDlgProc);
+				(DLGPROC)AboutDlgProc);
 			break;
 		}
 	}

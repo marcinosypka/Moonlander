@@ -10,6 +10,7 @@ protected:
 	std::vector < std::vector <GLfloat> > vertexes;
 	Shape();
 	~Shape();
+public:
 	virtual void draw() = 0;
 };
 

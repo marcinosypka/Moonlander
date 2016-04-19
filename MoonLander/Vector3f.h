@@ -1,8 +1,8 @@
 #pragma once
 #include <windows.h> // Window defines
 #include <gl\gl.h> 
-#include <gl\glu.h> 
-#include "glut.h"
+#include <gl\glu.h>
+//#include "glut.h"
 
 class Vector3f
 {
