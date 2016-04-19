@@ -7,23 +7,16 @@
 #include <gl\gl.h> 
 #include <gl\glu.h> 
 
-class Cone : public Shape
-{
+class Rectangle : public Shape {
+
 public:
-	Cone();
-	Cone(Vector3f* position, Vector3f* color, float height, float upperRadius, float lowerRadius, float resolution);
-	~Cone();
-
+	Rectangle();
+	Rectangle(Vector3f* position, Vector3f* color, float height,float width);
+	~Rectangle();
 	virtual void draw();
-
 private:
 	Vector3f* position;
 	Vector3f* color;
 	float height;
-	float upperRadius;
-	float lowerRadius;
-	float resolution;
-
-	
+	float width;
 };
-
