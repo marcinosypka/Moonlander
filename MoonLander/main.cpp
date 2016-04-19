@@ -2,12 +2,14 @@
 #include <windows.h> // Window defines
 #include <gl\gl.h> 
 #include <gl\glu.h> 
+#include "glut.h"
 #include <iostream>
 #include <iostream>
 #include "RESOURCE.H"
 #include "Shape.h"
 #include "Cone.h"
 #include "vector3f.h"
+#include "World.h"
 
 const LPCTSTR lpszAppName = (LPCTSTR)"MoonLander";
 static HINSTANCE hInstance;
@@ -18,13 +20,16 @@ static GLfloat yRot = 0.0f;
 static GLsizei lastHeight;
 static GLsizei lastWidth;
 // Opis tekstury
-BITMAPINFOHEADER	bitmapInfoHeader;	// nag³ówek obrazu
+BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
 unsigned int		texture[2];			// obiekt tekstury
 										
 // Color Palette handle
 HPALETTE hPalette = NULL;
 
+
+
+World* world = new World();
 
 //############# FUNCTION PROTOTYPES ########################
 
@@ -34,6 +39,8 @@ BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 // Set Pixel Format function - forward declaration
 void SetDCPixelFormat(HDC hDC);
+
+
 
 void ukladWspolrzednych(void) {
 
@@ -59,7 +66,7 @@ void ukladWspolrzednych(void) {
 	GLfloat zf[3] = { -1.0f, 1.0f, 95.0f };
 	glColor3f(0.0f, 0.0f, 0.0f);
 
-	//oœ x
+	//oo x
 	glBegin(GL_LINES);
 	glVertex3fv(xa);
 	glVertex3fv(xb);
@@ -81,7 +88,7 @@ void ukladWspolrzednych(void) {
 	glVertex3fv(xf);
 	glVertex3fv(xe);
 	glEnd();
-	//oœ y
+	//oo y
 	glBegin(GL_LINES);
 	glVertex3fv(ya);
 	glVertex3fv(yb);
@@ -102,7 +109,7 @@ void ukladWspolrzednych(void) {
 	glVertex3fv(yf);
 	glVertex3fv(ye);
 	glEnd();
-	//oœ z
+	//oo z
 	glBegin(GL_LINES);
 	glVertex3fv(za);
 	glVertex3fv(zb);
@@ -333,11 +340,10 @@ void RenderScene(void)
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
 	ukladWspolrzednych();
-	Vector3f *polozenie = new Vector3f(0, 0, 0);
-	Vector3f *kolor = new Vector3f(1, 0, 0);
-	Shape *test = new Cone(polozenie,kolor,10,5,20,100);
-	test->draw();
-	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
+
+	world->render();
+
+	//Sposób na odróYnienie "przedniej" i "tylniej" ociany wielok1ta:
 	glPolygonMode(GL_BACK, GL_LINE);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -375,18 +381,18 @@ void SetDCPixelFormat(HDC hDC)
 }
 unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader)
 {
-	FILE *filePtr;							// wskaŸnik pozycji pliku
-	BITMAPFILEHEADER	bitmapFileHeader;		// nag³ówek pliku
+	FILE *filePtr;							// wskaYnik pozycji pliku
+	BITMAPFILEHEADER	bitmapFileHeader;		// nag3ówek pliku
 	unsigned char		*bitmapImage;			// dane obrazu
 	int					imageIdx = 0;		// licznik pikseli
-	unsigned char		tempRGB;				// zmienna zamiany sk³adowych
+	unsigned char		tempRGB;				// zmienna zamiany sk3adowych
 
 												// otwiera plik w trybie "read binary"
 	filePtr = fopen(filename, "rb");
 	if (filePtr == NULL)
 		return NULL;
 
-	// wczytuje nag³ówek pliku
+	// wczytuje nag3ówek pliku
 	fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 
 	// sprawdza, czy jest to plik formatu BMP
@@ -396,16 +402,16 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		return NULL;
 	}
 
-	// wczytuje nag³ówek obrazu
+	// wczytuje nag3ówek obrazu
 	fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 
-	// ustawia wskaŸnik pozycji pliku na pocz¹tku danych obrazu
+	// ustawia wskaYnik pozycji pliku na pocz1tku danych obrazu
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
-	// przydziela pamiêæ buforowi obrazu
+	// przydziela pamiea buforowi obrazu
 	bitmapImage = (unsigned char*)malloc(bitmapInfoHeader->biSizeImage);
 
-	// sprawdza, czy uda³o siê przydzieliæ pamiêæ
+	// sprawdza, czy uda3o sie przydzielia pamiea
 	if (!bitmapImage)
 	{
 		free(bitmapImage);
@@ -416,14 +422,14 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	// wczytuje dane obrazu
 	fread(bitmapImage, 1, bitmapInfoHeader->biSizeImage, filePtr);
 
-	// sprawdza, czy dane zosta³y wczytane
+	// sprawdza, czy dane zosta3y wczytane
 	if (bitmapImage == NULL)
 	{
 		fclose(filePtr);
 		return NULL;
 	}
 
-	// zamienia miejscami sk³adowe R i B 
+	// zamienia miejscami sk3adowe R i B 
 	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3)
 	{
 		tempRGB = bitmapImage[imageIdx];
@@ -431,7 +437,7 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		bitmapImage[imageIdx + 2] = tempRGB;
 	}
 
-	// zamyka plik i zwraca wskaŸnik bufora zawieraj¹cego wczytany obraz
+	// zamyka plik i zwraca wskaYnik bufora zawieraj1cego wczytany obraz
 	fclose(filePtr);
 	return bitmapImage;
 }
@@ -488,6 +494,8 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	if (hWnd == NULL)
 		return FALSE;
 
+	world->initiate();
+	world->populate();
 
 	// Display the window
 	ShowWindow(hWnd, SW_SHOW);
@@ -534,7 +542,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		SetupRC();
 		glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 
-														// ³aduje pierwszy obraz tekstury:
+														// 3aduje pierwszy obraz tekstury:
 		bitmapData = LoadBitmapFile("Bitmapy\\checker.bmp", &bitmapInfoHeader);
 
 		glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
@@ -552,7 +560,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		if (bitmapData)
 			free(bitmapData);
 
-		// ³aduje drugi obraz tekstury:
+		// 3aduje drugi obraz tekstury:
 		bitmapData = LoadBitmapFile("Bitmapy\\crate.bmp", &bitmapInfoHeader);
 		glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
@@ -569,7 +577,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		if (bitmapData)
 			free(bitmapData);
 
-		// ustalenie sposobu mieszania tekstury z t³em
+		// ustalenie sposobu mieszania tekstury z t3em
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		break;
 
@@ -683,7 +691,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			if (pozycjaXYZ[0] < -100)
 				pozycjaXYZ[0] = 100;
 		}
-
 		if (wParam == VK_SPACE)
 		{
 			if (isShown) {
@@ -695,20 +702,15 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		}
 		if (wParam == VK_NUMPAD8)
 			pozycjaXYZ[1] += 1.f;
-
 		if (wParam == VK_NUMPAD2)
 			pozycjaXYZ[1] -= 1.f;
-
 		if (wParam == VK_NUMPAD4)
 			pozycjaXYZ[0] -= 1.f;
-
 		if (wParam == VK_NUMPAD6)
 			pozycjaXYZ[0] += 1.f;
-
 		if (wParam == VK_NUMPAD5) {
 			pozycjaXYZ[0] = pozycjaXYZ[1] = pozycjaXYZ[2] = 0;
 		}
-
 		if (wParam == VK_ADD)
 		{
 			if (wypelnienie < 1000)
@@ -719,7 +721,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			if (wypelnienie > 2)
 				wypelnienie--;
 		}
-
 		if (wParam == VK_F1)
 			figura = VK_F1;
 		if (wParam == VK_F2)

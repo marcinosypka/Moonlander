@@ -7,22 +7,20 @@
 #include <gl\gl.h> 
 #include <gl\glu.h> 
 
-class Cone : public Shape
-{
+class Circle : public Shape {
 public:
-	Cone(Vector3f* position, Vector3f* color, float height, float upperRadius, float lowerRadius, float resolution);
-	~Cone();
 
-	void draw();
+	Circle(Vector3f* position, Vector3f* color, float radius=10, float resolution=20, int GL_STRONA = GL_CCW);
+	~Circle();
+	virtual void draw();
 
 private:
 	Vector3f* position;
 	Vector3f* color;
-	float height;
-	float upperRadius;
-	float lowerRadius;
+	float radius;
 	float resolution;
+	int GL_STRONA;
 
-	
+
+
 };
-
