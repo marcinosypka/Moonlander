@@ -2,12 +2,14 @@
 #include <windows.h> // Window defines
 #include <gl\gl.h> 
 #include <gl\glu.h> 
+#include "glut.h"
 #include <iostream>
 #include <iostream>
 #include "RESOURCE.H"
 #include "Shape.h"
 #include "Cone.h"
 #include "vector3f.h"
+#include "World.h"
 
 const LPCTSTR lpszAppName = (LPCTSTR)"MoonLander";
 static HINSTANCE hInstance;
@@ -26,6 +28,9 @@ unsigned int		texture[2];			// obiekt tekstury
 HPALETTE hPalette = NULL;
 
 
+
+World* world = new World();
+
 //############# FUNCTION PROTOTYPES ########################
 
 LRESULT CALLBACK WndProc(HWND hWnd,UINT    message, WPARAM  wParam, LPARAM  lParam);
@@ -34,6 +39,8 @@ BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 // Set Pixel Format function - forward declaration
 void SetDCPixelFormat(HDC hDC);
+
+
 
 void ukladWspolrzednych(void) {
 
@@ -333,10 +340,9 @@ void RenderScene(void)
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
 	ukladWspolrzednych();
-	Vector3f *polozenie = new Vector3f(0, 0, 0);
-	Vector3f *kolor = new Vector3f(1, 0, 0);
-	Shape *test = new Cone(polozenie,kolor,10,5,20,100);
-	test->draw();
+
+	world->render();
+
 	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
 	glPolygonMode(GL_BACK, GL_LINE);
 	glPopMatrix();
@@ -488,6 +494,8 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	if (hWnd == NULL)
 		return FALSE;
 
+	world->initiate();
+	world->populate();
 
 	// Display the window
 	ShowWindow(hWnd, SW_SHOW);
