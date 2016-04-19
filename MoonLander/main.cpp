@@ -343,7 +343,8 @@ void RenderScene(void)
 
 	world->render();
 
-	//Sposób na odróYnienie "przedniej" i "tylniej" ociany wielok1ta:
+	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
+
 	glPolygonMode(GL_BACK, GL_LINE);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);

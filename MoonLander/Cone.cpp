@@ -12,6 +12,15 @@ Cone::Cone(Vector3f* position, Vector3f* color, float height, float upperRadius,
 	this->resolution = resolution;
 }
 
+Cone::Cone()
+{
+	this->position = new Vector3f(0.0f, 0.0f, 0.0f);
+	this->color = new Vector3f(0.0f, 0.0f, 0.0f);
+	this->height = 40.f;
+	this->upperRadius = 0.0f;
+	this->lowerRadius = 30.0f;
+	this->resolution = 16;
+}
 
 Cone::~Cone()
 {
