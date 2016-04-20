@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector3f.h"
 #include "Shape.h"
+#include "Circle.h"
 #include "Tools.h"
 #include <iostream>
 #include <windows.h>
@@ -18,14 +19,22 @@ public:
 
 	void setPart(float part);
 
+	void setTopIsShown(bool shown);
+	void setBottomIsShown(bool shown);
+
 private:
 	Vector3f* position;
 	Vector3f* color;
+	Vector3f *topCirclepossition;
 	float height;
 	float upperRadius;
 	float lowerRadius;
 	float resolution;
 	float part;
+	Circle *top;
+	Circle *bottom;
+	bool topIsShown = false;
+	bool bottomIsShown = false;
 	
 };
 

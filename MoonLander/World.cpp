@@ -72,6 +72,7 @@ void World::populate()
 	//shapes imitating engines
 	Cone *cone = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.6f, 0.7f, 0.8f), 27.0f, 0.0f, 13.0f, 32);
 	//cone->setPart(0.4f);
+	cone->setBottomIsShown(true);
 	Shape *shape = cone;
 	manuallyDrawnShapes.push_back(shape);
 }
