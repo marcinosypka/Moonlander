@@ -8,6 +8,7 @@ class Shape
 {
 protected:
 	std::vector < std::vector <GLfloat> > vertexes;
+
 	
 public:
 	virtual void draw() = 0;

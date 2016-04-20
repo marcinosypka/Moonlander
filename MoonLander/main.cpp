@@ -2,7 +2,6 @@
 #include <windows.h> // Window defines
 #include <gl\gl.h> 
 #include <gl\glu.h> 
-#include "glut.h"
 #include <iostream>
 #include <iostream>
 #include "RESOURCE.H"
@@ -44,26 +43,26 @@ void SetDCPixelFormat(HDC hDC);
 
 void ukladWspolrzednych(void) {
 
-	GLfloat xa[3] = { -100.0f,0.0f, 0.0f };
-	GLfloat xb[3] = { 100.0f,0.0f, 0.0f };
-	GLfloat xc[3] = { 95.0f,-1.0f,-1.0f };
-	GLfloat xd[3] = { 95.0f, 1.0f,-1.0f };
-	GLfloat xe[3] = { 95.0f, 1.0f, 1.0f };
-	GLfloat xf[3] = { 95.0f,-1.0f, 1.0f };
+	GLfloat xa[3] = { -300.0f,0.0f, 0.0f };
+	GLfloat xb[3] = { 300.0f,0.0f, 0.0f };
+	GLfloat xc[3] = { 295.0f,-1.0f,-1.0f };
+	GLfloat xd[3] = { 295.0f, 1.0f,-1.0f };
+	GLfloat xe[3] = { 295.0f, 1.0f, 1.0f };
+	GLfloat xf[3] = { 295.0f,-1.0f, 1.0f };
 
-	GLfloat ya[3] = { 0.0f,-100.0f,0.0f };
-	GLfloat yb[3] = { 0.0f, 100.0f,0.0f };
-	GLfloat yc[3] = { -1.0f, 95.0f,-1.0f };
-	GLfloat yd[3] = { 1.0f, 95.0f,-1.0f };
-	GLfloat ye[3] = { 1.0f, 95.0f, 1.0f };
-	GLfloat yf[3] = { -1.0f, 95.0f, 1.0f };
+	GLfloat ya[3] = { 0.0f,-300.0f,0.0f };
+	GLfloat yb[3] = { 0.0f, 300.0f,0.0f };
+	GLfloat yc[3] = { -1.0f, 295.0f,-1.0f };
+	GLfloat yd[3] = { 1.0f, 295.0f,-1.0f };
+	GLfloat ye[3] = { 1.0f, 295.0f, 1.0f };
+	GLfloat yf[3] = { -1.0f, 295.0f, 1.0f };
 
-	GLfloat za[3] = { 0.0f, 0.0f,-100.0f };
-	GLfloat zb[3] = { 0.0f, 0.0f, 100.0f };
-	GLfloat zc[3] = { -1.0f,-1.0f, 95.0f };
-	GLfloat zd[3] = { 1.0f,-1.0f, 95.0f };
-	GLfloat ze[3] = { 1.0f, 1.0f, 95.0f };
-	GLfloat zf[3] = { -1.0f, 1.0f, 95.0f };
+	GLfloat za[3] = { 0.0f, 0.0f,-300.0f };
+	GLfloat zb[3] = { 0.0f, 0.0f, 300.0f };
+	GLfloat zc[3] = { -1.0f,-1.0f, 295.0f };
+	GLfloat zd[3] = { 1.0f,-1.0f, 295.0f };
+	GLfloat ze[3] = { 1.0f, 1.0f, 295.0f };
+	GLfloat zf[3] = { -1.0f, 1.0f, 295.0f };
 	glColor3f(0.0f, 0.0f, 0.0f);
 
 	//oo x
@@ -207,7 +206,7 @@ HPALETTE GetOpenGLPalette(HDC hDC)
 }
 void ChangeSize(GLsizei w, GLsizei h)
 {
-	GLfloat nRange = 100.0f;
+	GLfloat nRange = 300.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
 	if (h == 0)
@@ -677,70 +676,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 		if (wParam == VK_RIGHT)
 			yRot += 5.0f;
-/*
-	if (wParam == 0x57)
-		{
-			alfa += GL_PI / 100;
-			pozycjaXYZ[0] += 2 * GL_PI * pr / 100;
-			if (pozycjaXYZ[0] > 100)
-				pozycjaXYZ[0] = -100;
-		}
-		if (wParam == 0x53)
-		{
-			alfa -= GL_PI / 100;
-			pozycjaXYZ[0] -= 2 * GL_PI * pr / 100;
-			if (pozycjaXYZ[0] < -100)
-				pozycjaXYZ[0] = 100;
-		}
-		if (wParam == VK_SPACE)
-		{
-			if (isShown) {
-				isShown = false;
-			}
-			else {
-				isShown = true;
-			}
-		}
-		if (wParam == VK_NUMPAD8)
-			pozycjaXYZ[1] += 1.f;
-		if (wParam == VK_NUMPAD2)
-			pozycjaXYZ[1] -= 1.f;
-		if (wParam == VK_NUMPAD4)
-			pozycjaXYZ[0] -= 1.f;
-		if (wParam == VK_NUMPAD6)
-			pozycjaXYZ[0] += 1.f;
-		if (wParam == VK_NUMPAD5) {
-			pozycjaXYZ[0] = pozycjaXYZ[1] = pozycjaXYZ[2] = 0;
-		}
-		if (wParam == VK_ADD)
-		{
-			if (wypelnienie < 1000)
-				wypelnienie++;
-		}
-		if (wParam == VK_SUBTRACT)
-		{
-			if (wypelnienie > 2)
-				wypelnienie--;
-		}
-		if (wParam == VK_F1)
-			figura = VK_F1;
-		if (wParam == VK_F2)
-			figura = VK_F2;
-		if (wParam == VK_F3)
-			figura = VK_F3;
-		if (wParam == VK_F4)
-			figura = VK_F4;
-		if (wParam == VK_F5)
-			figura = VK_F5;
-		if (wParam == VK_F6)
-			figura = VK_F6;
-		if (wParam == VK_F7)
-			figura = VK_F7;
-		if (wParam == VK_F8)
-			alfa -= GL_PI / 100;
-		if (wParam == VK_F9)
-			alfa += GL_PI / 100;
-			*/
+
 		xRot = GLfloat((const int)xRot % 360);
 		yRot = GLfloat((const int)yRot % 360);
 

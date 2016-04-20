@@ -27,20 +27,19 @@ void World::render()
 	
 	//tutaj rysujemy rêcznie, wprowadzaj¹c transformacje
 
-	/*glMatrixMode(GL_MODELVIEW_MATRIX);	//macierz widoku modelu
+	glMatrixMode(GL_MODELVIEW_MATRIX);	//macierz widoku modelu
 	glPushMatrix();						//pobierasz aktualna macierz
 	glTranslatef(0.0f, 0.0f, 0.0f);	//wszelkie operacje
 	glRotatef(0.f, 1.0f, 0.0f, 0.0f);
-	manuallyDrawnShapes[0]->draw();		//rysowanie obiektu
+	//manuallyDrawnShapes[0]->draw();		//rysowanie obiektu
 	glPopMatrix();						//przywracasz macierz poprzedni¹ - tê normaln¹, nie zmodyfikowan¹
-	*/
+	
 }
 
 void World::populate()
 {
 	//Shape *shape = new Cone();
 	//automaticallyDrawnShapes.push_back(shape);		//tutaj dodaje shape do automatycznie rysowanego wektora
-
 
 	//Cone *cone1 = new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 5.0f, 50.0f, 44.0f, 20);
 	//cone1->setPart(0.7f);		//ustawiasz w jakiej czesci ma sie wyrysowac stozek
@@ -50,4 +49,5 @@ void World::populate()
 	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 56.0f, 0.0f), new Vector3f(0.1f, 0.2f, 0.4f), 25.0f, 25.0f, 25.0f, 32));
 	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 81.0f, 0.0f), new Vector3f(0.0f, 0.1f, 0.2f), 10.0f, 0.0f, 25.0f, 32));
 	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(1.0f, 0.5f, 0.0f), 60.0f, 32));
+	automaticallyDrawnShapes.push_back(new Rectangle1());
 }

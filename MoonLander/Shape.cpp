@@ -10,4 +10,5 @@ Shape::Shape()
 
 Shape::~Shape()
 {
+
 }

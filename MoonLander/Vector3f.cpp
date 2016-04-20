@@ -18,6 +18,9 @@ Vector3f::Vector3f(float x, float y, float z)
 
 const GLfloat* Vector3f::toArray()
 {
-	GLfloat array[3] = { x, y, z };
+	GLfloat *array = new GLfloat[3];
+	array[0] = x;
+	array[1] = y;
+	array[2] = z;
 	return array;
 }

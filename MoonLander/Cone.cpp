@@ -26,6 +26,8 @@ Cone::Cone()
 
 Cone::~Cone()
 {
+	delete position;
+	delete color;
 }
 
 void Cone::setPart(float part)

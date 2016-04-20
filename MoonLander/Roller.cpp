@@ -24,6 +24,8 @@ Roller::Roller() {
 
 Roller::~Roller() {
 	delete topCirclepossition;
+	delete position;
+	delete color;
 }
 
 void Roller::draw() {

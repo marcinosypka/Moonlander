@@ -17,7 +17,10 @@ Circle::Circle()
 	resolution = 16;
 }
 
-Circle::~Circle(){}
+Circle::~Circle(){
+	delete position;
+	delete color;
+}
 
 void Circle::draw() {
 
