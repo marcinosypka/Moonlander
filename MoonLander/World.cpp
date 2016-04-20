@@ -38,6 +38,7 @@ void World::render()
 
 void World::populate()
 {
+<<<<<<< HEAD
 	Shape *shape = new Cone();
 	automaticallyDrawnShapes.push_back(shape);		//tutaj dodaje shape do automatycznie rysowanego wektora
 
@@ -46,4 +47,10 @@ void World::populate()
 	cone1->setPart(0.7f);		//ustawiasz w jakiej czesci ma sie wyrysowac stozek
 	Shape *shape1 = cone1;
 	manuallyDrawnShapes.push_back(shape1);			//dodaje shape do recznie rysowanego wektora
+=======
+	
+	shapes.push_back(new Cone());
+	shapes.push_back(new Circle());
+	shapes.push_back(new Roller());
+>>>>>>> a17af9aef619bb3408006bef13f760dac19cbbb6
 }

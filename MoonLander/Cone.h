@@ -1,6 +1,11 @@
 #pragma once
 #include "Vector3f.h"
 #include "Shape.h"
+#include "Tools.h"
+#include <iostream>
+#include <windows.h>
+#include <gl\gl.h> 
+#include <gl\glu.h> 
 
 class Cone : public Shape
 {
