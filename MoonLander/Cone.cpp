@@ -14,6 +14,7 @@ Cone::Cone(Vector3f* position, Vector3f* color, float height, float upperRadius,
 	this->upperRadius = upperRadius;
 	this->lowerRadius = lowerRadius;
 	this->resolution = resolution;
+	this->part = 1.0f;
 }
 
 Cone::Cone()
@@ -24,10 +25,16 @@ Cone::Cone()
 	this->upperRadius = 0.0f;
 	this->lowerRadius = 30.0f;
 	this->resolution = 16;
+	this->part = 1.0f;
 }
 
 Cone::~Cone()
 {
+}
+
+void Cone::setPart(float part)
+{
+	this->part = part;
 }
 
 void Cone::draw()
@@ -37,7 +44,7 @@ void Cone::draw()
 	glColor3fv(color->toArray());
 
 	glBegin(GL_TRIANGLE_STRIP);
-	for (float i = 0.0f; i <= Tools::PI * 2 + 0.01; i += step)
+	for (float i = 0.0f; i <= (Tools::PI * 2 + 0.01) * part; i += step)
 	{
 		glVertex3f(position->x + lowerRadius * cos(i), position->y, position->z + lowerRadius * sin(i));
 		glVertex3f(position->x + upperRadius * cos(i), position->y + height, position->z + upperRadius * sin(i));

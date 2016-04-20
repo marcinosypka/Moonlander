@@ -11,6 +11,8 @@ public:
 
 	virtual void draw();
 
+	void setPart(float part);
+
 private:
 	Vector3f* position;
 	Vector3f* color;
@@ -18,7 +20,7 @@ private:
 	float upperRadius;
 	float lowerRadius;
 	float resolution;
-
+	float part;
 	
 };
 

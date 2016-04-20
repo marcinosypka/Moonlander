@@ -16,6 +16,7 @@ public:
 	void initiate();
 
 private:
-	std::vector<Shape*> shapes;
+	std::vector<Shape*> automaticallyDrawnShapes;
+	std::vector<Shape*> manuallyDrawnShapes;
 };
 
