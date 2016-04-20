@@ -27,23 +27,27 @@ void World::render()
 	
 	//tutaj rysujemy rêcznie, wprowadzaj¹c transformacje
 
-	glMatrixMode(GL_MODELVIEW_MATRIX);	//macierz widoku modelu
+	/*glMatrixMode(GL_MODELVIEW_MATRIX);	//macierz widoku modelu
 	glPushMatrix();						//pobierasz aktualna macierz
-	glTranslatef(60.0f, 0.0f, 0.0f);	//wszelkie operacje
-	glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
+	glTranslatef(0.0f, 0.0f, 0.0f);	//wszelkie operacje
+	glRotatef(0.f, 1.0f, 0.0f, 0.0f);
 	manuallyDrawnShapes[0]->draw();		//rysowanie obiektu
 	glPopMatrix();						//przywracasz macierz poprzedni¹ - tê normaln¹, nie zmodyfikowan¹
-	
+	*/
 }
 
 void World::populate()
 {
-	Shape *shape = new Cone();
-	automaticallyDrawnShapes.push_back(shape);		//tutaj dodaje shape do automatycznie rysowanego wektora
+	//Shape *shape = new Cone();
+	//automaticallyDrawnShapes.push_back(shape);		//tutaj dodaje shape do automatycznie rysowanego wektora
 
 
-	Cone *cone1 = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(1.0, 0.0f, 0.0f), 50.0f, 10.0f, 60.0f, 32);
-	cone1->setPart(0.7f);		//ustawiasz w jakiej czesci ma sie wyrysowac stozek
-	Shape *shape1 = cone1;
-	manuallyDrawnShapes.push_back(shape1);			//dodaje shape do recznie rysowanego wektora
+	//Cone *cone1 = new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 5.0f, 50.0f, 44.0f, 20);
+	//cone1->setPart(0.7f);		//ustawiasz w jakiej czesci ma sie wyrysowac stozek
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 6.0f, 50.0f, 44.0f, 20));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 30.0f, 44.0f, 60.0f, 20));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 43.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 13.0f, 25.0f, 44.0f, 20));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 56.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 25.0f, 25.0f, 25.0f, 20));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 81.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 10.0f, 0.0f, 25.0f, 20));
+	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 60.0f, 20));
 }
