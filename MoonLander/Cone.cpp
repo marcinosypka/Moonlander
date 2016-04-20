@@ -11,6 +11,9 @@ Cone::Cone(Vector3f* position, Vector3f* color, float height, float upperRadius,
 	this->lowerRadius = lowerRadius;
 	this->resolution = resolution;
 	this->part = 1.0f;
+	bottom = new Circle(position, color, lowerRadius, resolution);
+	topCirclepossition = new Vector3f(position->x, position->y + height, position->z);
+	top = new Circle(topCirclepossition, color, upperRadius, resolution, GL_CW);
 }
 
 Cone::Cone()
@@ -22,6 +25,9 @@ Cone::Cone()
 	this->lowerRadius = 30.0f;
 	this->resolution = 16;
 	this->part = 1.0f;
+	bottom = new Circle(position, color, lowerRadius, resolution);
+	topCirclepossition = new Vector3f(position->x, position->y + height, position->z);
+	top = new Circle(topCirclepossition, color, upperRadius, resolution, GL_CW);
 }
 
 Cone::~Cone()
@@ -35,8 +41,24 @@ void Cone::setPart(float part)
 	this->part = part;
 }
 
+void Cone::setTopIsShown(bool shown)
+{
+	topIsShown = shown;
+}
+void Cone::setBottomIsShown(bool shown)
+{
+	bottomIsShown = shown;
+}
+
 void Cone::draw()
 {
+	if (topIsShown) {
+		top->draw();
+	}
+	if (bottomIsShown) {
+		bottom->draw();
+	}
+
 	float step = Tools::PI * 2 / resolution;
 
 	glColor3fv(color->toArray());
