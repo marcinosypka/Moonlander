@@ -44,10 +44,10 @@ void World::populate()
 
 	//Cone *cone1 = new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 5.0f, 50.0f, 44.0f, 20);
 	//cone1->setPart(0.7f);		//ustawiasz w jakiej czesci ma sie wyrysowac stozek
-	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 6.0f, 50.0f, 44.0f, 20));
-	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 30.0f, 44.0f, 60.0f, 20));
-	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 43.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 13.0f, 25.0f, 44.0f, 20));
-	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 56.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 25.0f, 25.0f, 25.0f, 20));
-	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 81.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 10.0f, 0.0f, 25.0f, 20));
-	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(0.0, 0.0f, 0.0f), 60.0f, 20));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 7.0f, 0.0f), new Vector3f(0.1f, 0.3f, 0.4f), 6.0f, 50.0f, 44.0f, 32));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(0.0f, 0.6f, 0.8f), 30.0f, 44.0f, 60.0f, 32));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 43.0f, 0.0f), new Vector3f(0.2f, 0.3f, 0.5f), 13.0f, 25.0f, 44.0f, 32));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 56.0f, 0.0f), new Vector3f(0.1f, 0.2f, 0.4f), 25.0f, 25.0f, 25.0f, 32));
+	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 81.0f, 0.0f), new Vector3f(0.0f, 0.1f, 0.2f), 10.0f, 0.0f, 25.0f, 32));
+	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(1.0f, 0.5f, 0.0f), 60.0f, 32));
 }
