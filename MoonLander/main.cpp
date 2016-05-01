@@ -206,7 +206,7 @@ HPALETTE GetOpenGLPalette(HDC hDC)
 }
 void ChangeSize(GLsizei w, GLsizei h)
 {
-	GLfloat nRange = 300.0f;
+	GLfloat nRange = 200.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
 	if (h == 0)
@@ -338,7 +338,7 @@ void RenderScene(void)
 	/////////////////////////////////////////////////////////////////
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
-	ukladWspolrzednych();
+	//ukladWspolrzednych();
 
 	world->render();
 
