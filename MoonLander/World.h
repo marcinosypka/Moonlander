@@ -5,7 +5,7 @@
 #include "Circle.h"
 #include "Roller.h"
 #include "Rectangle1.h"
-
+#include "Line.h"
 
 
 class World

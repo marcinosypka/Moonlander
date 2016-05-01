@@ -69,10 +69,10 @@ void World::populate()
 	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 43.0f, 0.0f), new Vector3f(0.2f, 0.3f, 0.5f), 13.0f, 25.0f, 44.0f, 32));
 	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 56.0f, 0.0f), new Vector3f(0.1f, 0.2f, 0.4f), 25.0f, 25.0f, 25.0f, 32));
 	automaticallyDrawnShapes.push_back(new Cone(new Vector3f(0.0f, 81.0f, 0.0f), new Vector3f(0.0f, 0.1f, 0.2f), 10.0f, 0.0f, 25.0f, 32));
-	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(1.0f, 0.5f, 0.0f), 60.0f, 32));
+	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(1.0f, 0.5f, 0.0f), 50.0f, 32));
 	automaticallyDrawnShapes.push_back(new Rectangle1());
 	automaticallyDrawnShapes.push_back(new Circle(new Vector3f(0.0f, 13.0f, 0.0f), new Vector3f(1.0f, 0.5f, 0.0f), 50.0f, 32));
-
+	//automaticallyDrawnShapes.push_back(new Line(new Vector3f(0.f, 0.f, 0.f), new Vector3f(100.f, 100.f, 100.f), new Vector3f(0.f, 0.f, 0.f),2.5f));
 	//shapes imitating engines
 	Cone *cone = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.6f, 0.7f, 0.8f), 27.0f, 0.0f, 13.0f, 32);
 	//cone->setPart(0.4f);
