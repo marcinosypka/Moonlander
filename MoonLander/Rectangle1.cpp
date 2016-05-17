@@ -9,11 +9,11 @@ Rectangle1::Rectangle1(Vector3f* position, Vector3f* color, float width, float h
 	this->depth = depth;
 }
 Rectangle1::Rectangle1() {
-	this->position = new Vector3f(-300, 0, -300);
+	this->position = new Vector3f(0, 0, 0);
 	this->color = new Vector3f(0.4f, 0.2f, 0.f);
-	this->width = 600;
+	this->width = 10000;
 	this->height = 0;
-	this->depth = 600;
+	this->depth = 10000;
 }
 Rectangle1::~Rectangle1() {
 	delete position;
@@ -25,10 +25,10 @@ void Rectangle1::draw() {
 	glColor3fv(color->toArray());
 
 	glBegin(GL_POLYGON);
-	glVertex3f(position->x, position->y, position->z);
-	glVertex3f(position->x, position->y, position->z + depth);
-	glVertex3f(position->x + width, position->y + height, position->z + depth);
-	glVertex3f(position->x + width, position->y + height, position->z);
+	glVertex3f(position->x - width, position->y, position->z + depth);
+	glVertex3f(position->x + width, position->y, position->z + depth);
+	glVertex3f(position->x + width, position->y, position->z - depth);
+	glVertex3f(position->x - width, position->y, position->z - depth);
 	glEnd();
 	glBegin(GL_TRIANGLE_STRIP);
 

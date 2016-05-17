@@ -52,9 +52,6 @@ void World::render()
 	glPopMatrix();
 
 
-
-
-	
 }
 
 void World::populate()
@@ -96,7 +93,7 @@ void World::populate()
 
 	
 
-	//automaticallyDrawnShapes.push_back(new Rectangle1());
+	automaticallyDrawnShapes.push_back(new Rectangle1());
 	//shapes imitating engines
 	Cone *cone = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.6f, 0.7f, 0.8f), 27.0f, 0.0f, 13.0f, 32);
 	//cone->setPart(0.4f);

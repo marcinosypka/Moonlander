@@ -224,11 +224,14 @@ void ChangeSize(GLsizei w, GLsizei h)
 	glLoadIdentity();
 
 	// Establish clipping volume (left, right, bottom, top, near, far)
+	/*
 	if (w <= h)
 		glOrtho(-nRange, nRange, -nRange*h / w, nRange*h / w, -nRange, nRange);
 	else
 		glOrtho(-nRange*w / h, nRange*w / h, -nRange, nRange, -nRange, nRange);
-
+		*/
+	gluPerspective(45.0, w / h, 1.0, 10000.0f);
+	glTranslatef(0.0f, 0.0f, -500.0f);
 	// Establish perspective: 
 	/*
 	gluPerspective(60.0f,fAspect,1.0,400);
@@ -484,7 +487,7 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 
 		// Window position and size
 		50, 50,
-		400, 400,
+		1000, 1000,
 		NULL,
 		NULL,
 		hInstance,
