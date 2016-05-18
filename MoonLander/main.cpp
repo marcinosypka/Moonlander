@@ -543,6 +543,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		hRC = wglCreateContext(hDC);
 		wglMakeCurrent(hDC, hRC);
 		SetupRC();
+		/*
 		glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 
 														// 3aduje pierwszy obraz tekstury:
@@ -562,8 +563,10 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 		if (bitmapData)
 			free(bitmapData);
+			*/
 
 		// 3aduje drugi obraz tekstury:
+		/*
 		bitmapData = LoadBitmapFile("Bitmapy\\crate.bmp", &bitmapInfoHeader);
 		glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
@@ -576,9 +579,11 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		// tworzy obraz tekstury
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
 			bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+			
 
 		if (bitmapData)
 			free(bitmapData);
+			*/
 
 		// ustalenie sposobu mieszania tekstury z t3em
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

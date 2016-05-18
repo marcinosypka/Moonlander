@@ -90,10 +90,12 @@ void World::populate()
 	automaticallyDrawnShapes.push_back(new Line(new Vector3f(sin(Tools::PI / 4) * 45, 13.f, cos(Tools::PI / 4) * 45), new Vector3f(sin(Tools::PI / 4) * 45 + 10, -30.f, cos(Tools::PI / 4) * 45 + 10), new Vector3f(0.f, 0.f, 0.f), 5.5f));
 	automaticallyDrawnShapes.push_back(new Roller(new Vector3f(sin(Tools::PI / 4) * 45 + 10, -30.f, cos(Tools::PI / 4) * 45 + 10), new Vector3f(0.f, 0.f, 0.f), 10.f, 30.f, 5.f));
 
-
 	
-
+	//automaticallyDrawnShapes.push_back(new SolarPanel());
+	
+	//pod³o¿e
 	automaticallyDrawnShapes.push_back(new Rectangle1());
+
 	//shapes imitating engines
 	Cone *cone = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.6f, 0.7f, 0.8f), 27.0f, 0.0f, 13.0f, 32);
 	//cone->setPart(0.4f);

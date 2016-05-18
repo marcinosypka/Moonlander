@@ -7,6 +7,7 @@
 #include "Rectangle1.h"
 #include "Line.h"
 #include "Tools.h"
+#include "SolarPanel.h"
 
 
 class World
