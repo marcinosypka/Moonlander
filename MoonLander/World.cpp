@@ -1,10 +1,13 @@
 #include "World.h"
 
-
+//http://anttweakbar.sourceforge.net/doc/
 
 World::World()
 {
-
+	shipVelocity.x = 0.0f;
+	shipVelocity.y = 0.0f;
+	shipVelocity.z = 0.0f;
+	position = 0.0f;
 }
 
 
@@ -17,40 +20,66 @@ void World::initiate()
 
 }
 
+void World::changeCamera(int zooming)
+{
+	zoom += zooming;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, 1000 / 1000, 1.0, 10000.0f);
+	glTranslatef(0.0f, 0.0f, zoom);
+}
+
 void World::render()
 {
+	if (position <= -70.0f)
+	{
+		position = -70.0f;
+		velocity = 0.0f;
+	}
+	if (engineOn) {
+		velocity += timestep * shipA;
+	}   
+	velocity += timestep * gravity;
+	position += timestep * (velocity + timestep * gravity / 2);
+
 	for (int i = 0; i < automaticallyDrawnShapes.size(); i++)
 	{
 		//tutaj powinny siê rysowaæ tylko obiekty których nie trzeba modyfikowaæ w ¿aden sposób
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glTranslatef(0.0f, position, 0.0f);
 		automaticallyDrawnShapes[i]->draw();
+		glPopMatrix();
 	}
 	
 	//tutaj rysujemy rêcznie, wprowadzaj¹c transformacje
-
+	
 	glMatrixMode(GL_MODELVIEW_MATRIX);	//macierz widoku modelu
 	glPushMatrix();						//pobierasz aktualna macierz
 
 
 	//glRotatef(-20.0f, 0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 13.1f, 44.5f);
+	glTranslatef(0.0f, 13.1f + position, 44.5f);
 	manuallyDrawnShapes[0]->draw();		//rysowanie obiektu
 	glPopMatrix();						//przywracasz macierz poprzedni¹ - tê normaln¹, nie zmodyfikowan¹
 
 	glPushMatrix();						
-	glTranslatef(0.0f, 13.1f, -44.5f);
+	glTranslatef(0.0f, 13.1f + position, -44.5f);
 	manuallyDrawnShapes[0]->draw();		
 	glPopMatrix();
 
 	glPushMatrix();					
-	glTranslatef(44.5f, 13.1f, 0.0f);
+	glTranslatef(44.5f, 13.1f + position, 0.0f);
 	manuallyDrawnShapes[0]->draw();
 	glPopMatrix();
 
 	glPushMatrix();						
-	glTranslatef(-44.5f, 13.1f, 0.0f);
+	glTranslatef(-44.5f, 13.1f + position, 0.0f);
 	manuallyDrawnShapes[0]->draw();		
 	glPopMatrix();
 
+	//drawing ground
+	manuallyDrawnShapes[1]->draw();
 
 }
 
@@ -91,10 +120,9 @@ void World::populate()
 	automaticallyDrawnShapes.push_back(new Roller(new Vector3f(sin(Tools::PI / 4) * 45 + 10, -30.f, cos(Tools::PI / 4) * 45 + 10), new Vector3f(0.f, 0.f, 0.f), 10.f, 30.f, 5.f));
 
 	
-	//automaticallyDrawnShapes.push_back(new SolarPanel());
+	automaticallyDrawnShapes.push_back(new SolarPanel());
 	
-	//pod³o¿e
-	automaticallyDrawnShapes.push_back(new Rectangle1());
+	
 
 	//shapes imitating engines
 	Cone *cone = new Cone(new Vector3f(0.0f, 0.0f, 0.0f), new Vector3f(0.6f, 0.7f, 0.8f), 27.0f, 0.0f, 13.0f, 32);
@@ -102,6 +130,9 @@ void World::populate()
 	cone->setBottomIsShown(true);
 	Shape *shape = cone;
 	manuallyDrawnShapes.push_back(shape);
+
+	//pod³o¿e
+	manuallyDrawnShapes.push_back(new Rectangle1());
 	
 
 }

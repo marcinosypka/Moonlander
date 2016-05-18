@@ -206,6 +206,7 @@ HPALETTE GetOpenGLPalette(HDC hDC)
 }
 void ChangeSize(GLsizei w, GLsizei h)
 {
+
 	GLfloat nRange = 200.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
@@ -231,14 +232,14 @@ void ChangeSize(GLsizei w, GLsizei h)
 		glOrtho(-nRange*w / h, nRange*w / h, -nRange, nRange, -nRange, nRange);
 		*/
 	gluPerspective(45.0, w / h, 1.0, 10000.0f);
-	glTranslatef(0.0f, 0.0f, -500.0f);
+	glTranslatef(0.0f, 0.0f, -400.0f);
 	// Establish perspective: 
 	/*
 	gluPerspective(60.0f,fAspect,1.0,400);
 	*/
+	
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	
 }
 void SetupRC()
 {
@@ -497,6 +498,8 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	if (hWnd == NULL)
 		return FALSE;
 
+	static HDC hDC = GetDC(hWnd);
+
 	world->initiate();
 	world->populate();
 
@@ -504,12 +507,14 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
+
 	// Process application messages until the application closes
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+		while (GetMessage(&msg, NULL, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
 
 	return msg.wParam;
 }
@@ -530,6 +535,8 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 		// Window creation, setup for OpenGL
 	case WM_CREATE:
+
+		SetTimer(hWnd, 1002, 0.04, NULL);
 		// Store the device context
 		hDC = GetDC(hWnd);
 
@@ -543,7 +550,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		hRC = wglCreateContext(hDC);
 		wglMakeCurrent(hDC, hRC);
 		SetupRC();
-		/*
+		
 		glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 
 														// 3aduje pierwszy obraz tekstury:
@@ -563,8 +570,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 		if (bitmapData)
 			free(bitmapData);
-			*/
-
+			
 		// 3aduje drugi obraz tekstury:
 		/*
 		bitmapData = LoadBitmapFile("Bitmapy\\crate.bmp", &bitmapInfoHeader);
@@ -616,6 +622,13 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		// whenever the screen needs updating.
 	case WM_PAINT:
 	{
+	
+		
+	}
+
+	case WM_TIMER:
+	{
+
 		// Call OpenGL drawing code
 		RenderScene();
 
@@ -624,7 +637,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		// Validate the newly painted client area
 		ValidateRect(hWnd, NULL);
 	}
-	break;
 
 	// Windows is telling the application that it may modify
 	// the system palette.  This message in essance asks the 
@@ -685,6 +697,21 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		if (wParam == VK_RIGHT)
 			yRot += 5.0f;
 
+		if (wParam == VK_SPACE)
+		{
+			world->engineOn = true;
+		}
+		
+		if (wParam == VK_NUMPAD1)
+		{
+			world->changeCamera(-20.0f);
+		}
+		
+		if (wParam == VK_NUMPAD2)
+		{
+			world->changeCamera(20.0f);
+		}
+
 		xRot = GLfloat((const int)xRot % 360);
 		yRot = GLfloat((const int)yRot % 360);
 
@@ -692,6 +719,11 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		InvalidateRect(hWnd, NULL, FALSE);
 	}
 	break;
+
+	case WM_KEYUP:
+	{
+		world->engineOn = false;
+	}
 
 	// A menu command
 	case WM_COMMAND:
