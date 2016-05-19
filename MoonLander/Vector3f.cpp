@@ -24,3 +24,9 @@ const GLfloat* Vector3f::toArray()
 	array[2] = z;
 	return array;
 }
+void Vector3f::set(float x, float y, float z)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+}

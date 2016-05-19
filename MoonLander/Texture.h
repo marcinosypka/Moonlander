@@ -13,6 +13,7 @@ public:
 	~Texture();
 
 	void SetLocalTexture();
+	unsigned int getTexture();
 	unsigned char* LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader);
 	
 private:

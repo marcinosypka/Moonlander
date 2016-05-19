@@ -4,6 +4,9 @@
 
 World::World()
 {
+	gravity = Tools::moonA / Tools::scale;
+	timestep = Tools::refreshFreq;
+	zoom = -400.f;
 	shipVelocity.x = 0.0f;
 	shipVelocity.y = 0.0f;
 	shipVelocity.z = 0.0f;
@@ -31,7 +34,8 @@ void World::changeCamera(int zooming)
 
 void World::render()
 {
-	if (position <= -70.0f)
+	moonlander.checkEngines(control);
+	/*if (position <= -70.0f)
 	{
 		position = -70.0f;
 		velocity = 0.0f;
@@ -41,13 +45,14 @@ void World::render()
 	}   
 	velocity += timestep * gravity;
 	position += timestep * (velocity + timestep * gravity / 2);
-
+	*/
+	moonlander.calcPosition();
 	for (int i = 0; i < automaticallyDrawnShapes.size(); i++)
 	{
 		//tutaj powinny siê rysowaæ tylko obiekty których nie trzeba modyfikowaæ w ¿aden sposób
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
-		glTranslatef(0.0f, position, 0.0f);
+		glTranslatef(moonlander.pos.x, moonlander.pos.y, moonlander.pos.z);
 		automaticallyDrawnShapes[i]->draw();
 		glPopMatrix();
 	}
@@ -59,22 +64,22 @@ void World::render()
 
 
 	//glRotatef(-20.0f, 0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 13.1f + position, 44.5f);
+	glTranslatef(moonlander.pos.x, 13.1f + moonlander.pos.y, 44.5f + moonlander.pos.z);
 	manuallyDrawnShapes[0]->draw();		//rysowanie obiektu
 	glPopMatrix();						//przywracasz macierz poprzedni¹ - tê normaln¹, nie zmodyfikowan¹
 
 	glPushMatrix();						
-	glTranslatef(0.0f, 13.1f + position, -44.5f);
+	glTranslatef(moonlander.pos.x, 13.1f + moonlander.pos.y, -44.5f + moonlander.pos.z);
 	manuallyDrawnShapes[0]->draw();		
 	glPopMatrix();
 
 	glPushMatrix();					
-	glTranslatef(44.5f, 13.1f + position, 0.0f);
+	glTranslatef(moonlander.pos.x, 13.1f + moonlander.pos.y, moonlander.pos.z);
 	manuallyDrawnShapes[0]->draw();
 	glPopMatrix();
 
 	glPushMatrix();						
-	glTranslatef(-44.5f, 13.1f + position, 0.0f);
+	glTranslatef(moonlander.pos.x, 13.1f + moonlander.pos.y, moonlander.pos.z);
 	manuallyDrawnShapes[0]->draw();		
 	glPopMatrix();
 

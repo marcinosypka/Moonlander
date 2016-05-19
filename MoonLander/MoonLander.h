@@ -1,21 +1,33 @@
 #pragma once
-
-#include "Shape.h"
-#include "Cone.h"
-#include "Circle.h"
-#include "Rectangle1.h"
-#include "Roller.h"
+#include "Tools.h"
 #include "Vector3f.h"
 
-class MoonLander : public Shape {
+
+class MoonLander {
 
 public:
 	MoonLander();
-	~MoonLander();
 
-	virtual void draw();
-
+	Vector3f position();
+	void     position(Vector3f currpos);
+	Vector3f v();
+	void	 v(Vector3f currvel);
+	Vector3f a();
+	void	 a(Vector3f curracc);
+	void checkEngines(bool *engine);
+	void calcPosition();
+	Vector3f pos;
 private:
+	bool engineOn;
+	bool xPlusEngineOn;
+	bool xMinusEngineOn;
+	bool zPlusEngineOn;
+	bool zMinusEngineOn;
+	Vector3f acceleration;
+	Vector3f velocity;
+	double sideEngineA;
 	
+	double mass;
+
 
 };

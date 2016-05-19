@@ -9,15 +9,16 @@
 #include "Cone.h"
 #include "vector3f.h"
 #include "World.h"
+#include "Tools.h"
 
 const LPCTSTR lpszAppName = (LPCTSTR)"MoonLander";
 static HINSTANCE hInstance;
 static const unsigned int BITMAP_ID = 0x4D42;
 static GLfloat xRot = 0.0f;
 static GLfloat yRot = 0.0f;
-
 static GLsizei lastHeight;
 static GLsizei lastWidth;
+bool spisSet = false, num2isSet = false, num4isSet = false, num6isSet = false, num8isSet = false;
 // Opis tekstury
 BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
@@ -342,7 +343,7 @@ void RenderScene(void)
 	/////////////////////////////////////////////////////////////////
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
-	//ukladWspolrzednych();
+	ukladWspolrzednych();
 
 	world->render();
 
@@ -536,7 +537,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		// Window creation, setup for OpenGL
 	case WM_CREATE:
 
-		SetTimer(hWnd, 1002, 0.04, NULL);
+		SetTimer(hWnd, 1002, Tools::refreshFreq, NULL);
 		// Store the device context
 		hDC = GetDC(hWnd);
 
@@ -633,7 +634,47 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		RenderScene();
 
 		SwapBuffers(hDC);
-
+		if (spisSet)
+		{
+			world->control[0] = true;
+		}
+		else
+		{
+			world->control[0] = false;
+		}
+		if (num2isSet)
+		{
+			world->control[3] = true;
+		}
+		else
+		{
+			world->control[3] = false;
+		}
+		if (num4isSet)
+		{
+			world->control[2] = true;
+		}
+		else
+		{
+			world->control[2] = false;
+		}
+		if (num6isSet)
+		{
+			world->control[1] = true;
+		}
+		else
+		{
+			world->control[1] = false;
+		}
+		if (num8isSet)
+		{
+			world->control[4] = true;
+		}
+		else
+		{
+			world->control[4] = false;
+		}
+		
 		// Validate the newly painted client area
 		ValidateRect(hWnd, NULL);
 	}
@@ -699,15 +740,30 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 		if (wParam == VK_SPACE)
 		{
-			world->engineOn = true;
+			spisSet = true;
 		}
-		
+		if (wParam == VK_NUMPAD4)
+		{
+			num4isSet = true;
+		}
+		if (wParam == VK_NUMPAD6)
+		{
+			num6isSet = true;	
+		}
+		if (wParam == VK_NUMPAD8)
+		{
+			num8isSet = true;
+		}
+		if (wParam == VK_NUMPAD2)
+		{
+			num2isSet = true;
+		}
 		if (wParam == VK_NUMPAD1)
 		{
 			world->changeCamera(-20.0f);
 		}
 		
-		if (wParam == VK_NUMPAD2)
+		if (wParam == VK_NUMPAD3)
 		{
 			world->changeCamera(20.0f);
 		}
@@ -722,8 +778,28 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_KEYUP:
 	{
-		world->engineOn = false;
+		if (wParam == VK_SPACE)
+		{
+			spisSet = false;
+		}
+		if (wParam == VK_NUMPAD4)
+		{
+			num4isSet = false;
+		}
+		if (wParam == VK_NUMPAD6)
+		{
+			num6isSet = false;
+		}
+		if (wParam == VK_NUMPAD8)
+		{
+			num8isSet = false;
+		}
+		if (wParam == VK_NUMPAD2)
+		{
+			num2isSet = false;
+		}
 	}
+
 
 	// A menu command
 	case WM_COMMAND:
