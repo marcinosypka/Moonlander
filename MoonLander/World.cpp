@@ -6,7 +6,7 @@ World::World()
 {
 	gravity = Tools::moonA / Tools::scale;
 	timestep = Tools::refreshFreq;
-	cameraPosition = Vector3f(0.0f, 0.0f, -400.f);
+	cameraPosition = Vector3f(0.0f, 0.0f, -600.f);
 	shipVelocity.x = 0.0f;
 	shipVelocity.y = 0.0f;
 	shipVelocity.z = 0.0f;
@@ -48,9 +48,10 @@ void World::changeCamera(int anglesOnX, int anglesOnY, int zooming)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluPerspective(45.0, 1000 / 1000, 1.0, 10000.0f);
-	glTranslatef(0.0f, 0.0f, cameraPosition.z);
-	glRotatef(cameraPosition.x, 1.0f, 0.0f, 0.0f);
-	glRotatef(cameraPosition.y, 0.0f, 1.0f, 0.0f);
+	gluLookAt(cameraPosition.x + (moonlander.position()).x, cameraPosition.y + (moonlander.position()).y, cameraPosition.z + (moonlander.position()).z, (moonlander.position()).x, (moonlander.position()).y, (moonlander.position()).z, 0, 1, 0);
+	//glTranslatef(0.0f, 0.0f, cameraPosition.z);
+//	glRotatef(cameraPosition.x, 1.0f, 0.0f, 0.0f);
+	//glRotatef(cameraPosition.y, 0.0f, 1.0f, 0.0f);
 }
 
 void World::render()
