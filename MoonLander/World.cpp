@@ -10,14 +10,31 @@ World::World()
 	shipVelocity.x = 0.0f;
 	shipVelocity.y = 0.0f;
 	shipVelocity.z = 0.0f;
-	position = 0.0f;
+	position = 0.0f; 
+	refuel = false;
 }
 
+float World::getFuel()
+{
+	return moonlander.fuelLeft();
+}
+void World::tryRefuel()
+{
+	if ((moonlander.position()).y == 0)
+		moonlander.refuel();
+}
 
 World::~World()
 {
 }
-
+Vector3f World::getVelocity()
+{
+	return moonlander.v();
+}
+Vector3f World::getPosition()
+{
+	return moonlander.position();
+}
 void World::initiate()
 {
 

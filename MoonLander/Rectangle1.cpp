@@ -9,7 +9,7 @@ Rectangle1::Rectangle1(Vector3f* position, Vector3f* color, float width, float h
 	this->depth = depth;
 }
 Rectangle1::Rectangle1() {
-	this->position = new Vector3f(0, -100.0f, 0);
+	this->position = new Vector3f(0, -30.0f, 0);
 	this->color = new Vector3f(0.4f, 0.2f, 0.f);
 	this->width = 10000;
 	this->height = 0;

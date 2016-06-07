@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <windows.h> // Window defines
+#include <AntTweakBar.h>
 #include <gl\gl.h> 
 #include <gl\glu.h> 
 #include <iostream>
@@ -18,7 +19,13 @@ static GLfloat xRot = 0.0f;
 static GLfloat yRot = 0.0f;
 static GLsizei lastHeight;
 static GLsizei lastWidth;
-bool spisSet = false, num2isSet = false, num4isSet = false, num6isSet = false, num8isSet = false;
+float velocity, velocityx, velocityz, height, fuel;
+Vector3f position, v;
+bool spisSet = false;
+bool w = false;
+bool s = false;
+bool a = false;
+bool d = false;
 // Opis tekstury
 BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
@@ -346,7 +353,7 @@ void RenderScene(void)
 	ukladWspolrzednych();
 
 	world->render();
-
+	TwDraw();
 	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
 
 	glPolygonMode(GL_BACK, GL_LINE);
@@ -494,7 +501,28 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 		NULL,
 		hInstance,
 		NULL);
+	TwInit(TW_OPENGL, NULL);
+	TwWindowSize(1000,1000);
+	
+	TwBar *bar;
+	bar = TwNewBar("Moonlander");
 
+	TwDefine(" Moonlander text=dark refresh=0.1 ");
+	TwAddSeparator(bar, NULL, " group='Velocity' ");
+	TwAddVarRO(bar, "Velocity[m/s]", TW_TYPE_FLOAT, &velocity,"precision=1");
+	TwAddVarRO(bar, "Velocity X[m/s]", TW_TYPE_FLOAT, &velocityx, "precision=1");
+	TwAddVarRO(bar, "Velocity Z[m/s]", TW_TYPE_FLOAT, &velocityz, "precision=1");
+	TwAddSeparator(bar, NULL, " group='Engines' ");
+	TwAddVarRO(bar, "Main Engine", TW_TYPE_BOOLCPP, &spisSet, "");
+	TwAddVarRO(bar, "Engine 1", TW_TYPE_BOOLCPP, &w, "");
+	TwAddVarRO(bar, "Engine 2", TW_TYPE_BOOLCPP, &s, "");
+	TwAddVarRO(bar, "Engine 3", TW_TYPE_BOOLCPP, &a, "");
+	TwAddVarRO(bar, "Engine 4", TW_TYPE_BOOLCPP, &d, "");
+	TwAddVarRO(bar, "Fuel Left[kg]", TW_TYPE_FLOAT, &fuel, "precision=2");
+	TwAddSeparator(bar, NULL, " group='Position' ");
+	TwAddVarRO(bar, "x", TW_TYPE_FLOAT, &position.x, "precision=1");
+	TwAddVarRO(bar, "y", TW_TYPE_FLOAT, &position.y, "precision=1");
+	TwAddVarRO(bar, "z", TW_TYPE_FLOAT, &position.z, "precision=1");
 	// If window was not created, quit
 	if (hWnd == NULL)
 		return FALSE;
@@ -631,6 +659,13 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 
 		// Call OpenGL drawing code
+		position = world->getPosition();
+		v = world->getVelocity();
+		fuel = 1000 * world->getFuel();
+		velocity = v.y;
+		velocityx = v.x / 2;
+		velocityz = v.z / 2;
+		height = position.y / 20;
 		RenderScene();
 
 		SwapBuffers(hDC);
@@ -642,7 +677,8 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		{
 			world->control[0] = false;
 		}
-		if (num2isSet)
+		
+		if (s)
 		{
 			world->control[3] = true;
 		}
@@ -650,7 +686,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		{
 			world->control[3] = false;
 		}
-		if (num4isSet)
+		if (a)
 		{
 			world->control[2] = true;
 		}
@@ -658,7 +694,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		{
 			world->control[2] = false;
 		}
-		if (num6isSet)
+		if (d)
 		{
 			world->control[1] = true;
 		}
@@ -666,7 +702,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		{
 			world->control[1] = false;
 		}
-		if (num8isSet)
+		if (w)
 		{
 			world->control[4] = true;
 		}
@@ -739,30 +775,32 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			yRot += 5.0f;
 
 		if (wParam == VK_SPACE)
-		{
 			spisSet = true;
-		}
-		if (wParam == VK_NUMPAD4)
-		{
-			num4isSet = true;
-		}
-		if (wParam == VK_NUMPAD6)
-		{
-			num6isSet = true;	
-		}
-		if (wParam == VK_NUMPAD8)
-		{
-			num8isSet = true;
-		}
-		if (wParam == VK_NUMPAD2)
-		{
-			num2isSet = true;
-		}
+
+		if (wParam == 0x41)
+			a = true;
+
+		if (wParam == 0x44)
+			d = true;
+
+		if (wParam == 0x57)
+			w = true;
+
+		if (wParam == 0x53)
+			s = true;
+
+		if (wParam == 0x52)
+			world->tryRefuel();
+
+
+
+
+
 		if (wParam == VK_NUMPAD1)
 		{
 			world->changeCamera(-20.0f);
 		}
-		
+
 		if (wParam == VK_NUMPAD3)
 		{
 			world->changeCamera(20.0f);
@@ -771,7 +809,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		xRot = GLfloat((const int)xRot % 360);
 		yRot = GLfloat((const int)yRot % 360);
 
-		
+
 		InvalidateRect(hWnd, NULL, FALSE);
 	}
 	break;
@@ -779,25 +817,20 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	case WM_KEYUP:
 	{
 		if (wParam == VK_SPACE)
-		{
 			spisSet = false;
-		}
-		if (wParam == VK_NUMPAD4)
-		{
-			num4isSet = false;
-		}
-		if (wParam == VK_NUMPAD6)
-		{
-			num6isSet = false;
-		}
-		if (wParam == VK_NUMPAD8)
-		{
-			num8isSet = false;
-		}
-		if (wParam == VK_NUMPAD2)
-		{
-			num2isSet = false;
-		}
+
+
+		if (wParam == 0x41)
+			a = false;
+
+		if (wParam == 0x44)
+			d = false;
+
+		if (wParam == 0x57)
+			w = false;
+
+		if (wParam == 0x53)
+			s = false;
 	}
 
 

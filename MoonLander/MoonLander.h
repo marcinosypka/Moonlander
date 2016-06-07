@@ -15,7 +15,10 @@ public:
 	Vector3f a();
 	void	 a(Vector3f curracc);
 	void checkEngines(bool *engine);
+	void refuel();
+	float fuelLeft();
 	void calcPosition();
+
 	Vector3f pos;
 private:
 	bool engineOn;
@@ -23,11 +26,13 @@ private:
 	bool xMinusEngineOn;
 	bool zPlusEngineOn;
 	bool zMinusEngineOn;
+	bool *engine;
 	Vector3f acceleration;
 	Vector3f velocity;
 	double sideEngineA;
-	
 	double mass;
-
+	double fuelmass;
+	double fullmass;
+	float engineForce;
 
 };

@@ -25,6 +25,10 @@ public:
 	Vector3f shipVelocity;
 	bool control[5];
 	void changeCamera(int zooming);
+	Vector3f getVelocity();
+	float getFuel();
+	Vector3f getPosition();
+	void tryRefuel();
 
 	
 
@@ -37,6 +41,7 @@ private:
 	float shipA = 3.00f;
 	float shipV = 0;
 	float zoom;
+	bool refuel;
 	MoonLander moonlander;
 	
 	
