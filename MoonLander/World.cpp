@@ -40,30 +40,22 @@ void World::initiate()
 
 }
 
-void World::changeCamera(int xAngles, int yAngles, int zooming)
+void World::changeCamera(int anglesOnX, int anglesOnY, int zooming)
 {
-	anglesOnX += xAngles;
-	anglesOnY += yAngles;
-	zoom += zooming;
-	
-	
-}
-
-void World::updateCamera()
-{
+	cameraPosition.z += zooming;
+	cameraPosition.x += anglesOnX;
+	cameraPosition.y += anglesOnY;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluPerspective(45.0, 1000 / 1000, 1.0, 10000.0f);
-	glTranslatef(0, 0, -zoom);
-	glRotatef(anglesOnX, 1, 0, 0);
-	glRotatef(anglesOnY, 0, 1, 0);
-	glTranslatef(-moonlander.pos.x, -moonlander.pos.y, -moonlander.pos.z);
-	
+	glTranslatef(0.0f, 0.0f, cameraPosition.z);
+	glRotatef(cameraPosition.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(cameraPosition.y, 0.0f, 1.0f, 0.0f);
 }
 
 void World::render()
 {	
-	updateCamera();
+	
 
 	moonlander.checkEngines(control);
 	/*if (position <= -70.0f)
