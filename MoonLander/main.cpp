@@ -827,17 +827,18 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 		int posX = GET_X_LPARAM(lParam);
 		int posY = GET_Y_LPARAM(lParam);
+		int angle = 1.0f;
 
 		if (GetKeyState(VK_LBUTTON) & 0x80)
 		{
 			if (posX > mousePosX)
-				world->changeCamera(0.0f, 1.0f, 0.0f);
+				world->changeCamera(0.0f, angle, 0.0f);
 			if (posX < mousePosX)
-				world->changeCamera(0.0f, -1.0f, 0.0f);
+				world->changeCamera(0.0f, -angle, 0.0f);
 			if (posY > mousePosY)
-				world->changeCamera(1.0f, 0.0f, 0.0f);
+				world->changeCamera(angle, 0.0f, 0.0f);
 			if (posY < mousePosY)
-				world->changeCamera(-1.0f, 0.0f, 0.0f);
+				world->changeCamera(-angle, 0.0f, 0.0f);
 		}
 
 		mousePosX = posX;
@@ -849,9 +850,9 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 		int x = GET_Y_LPARAM(wParam);
 		if (x > 0)
-			world->changeCamera(0.0f, 0.0f, 20.0f);
-		if (x < 0)
 			world->changeCamera(0.0f, 0.0f, -20.0f);
+		if (x < 0)
+			world->changeCamera(0.0f, 0.0f, 20.0f);
 	}
 	break;
 	// A menu command

@@ -19,6 +19,7 @@ public:
 
 	void render();
 	void populate();
+	void updateCamera();
 
 	void initiate();
 	float position;
@@ -40,6 +41,9 @@ private:
 	float velocity = 0;
 	float shipA = 3.00f;
 	float shipV = 0;
+	float anglesOnX = 0.0f;
+	float anglesOnY = 0.0f;
+	float zoom = 400.0f;
 	Vector3f cameraPosition;
 	bool refuel;
 	MoonLander moonlander;
