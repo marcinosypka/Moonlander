@@ -6,7 +6,7 @@ World::World()
 {
 	gravity = Tools::moonA / Tools::scale;
 	timestep = Tools::refreshFreq;
-	zoom = -400.f;
+	cameraPosition = Vector3f(0.0f, 0.0f, -400.f);
 	shipVelocity.x = 0.0f;
 	shipVelocity.y = 0.0f;
 	shipVelocity.z = 0.0f;
@@ -40,17 +40,23 @@ void World::initiate()
 
 }
 
-void World::changeCamera(int zooming)
+void World::changeCamera(int anglesOnX, int anglesOnY, int zooming)
 {
-	zoom += zooming;
-	glMatrixMode(GL_PROJECTION);
+	cameraPosition.z += zooming;
+	cameraPosition.x += anglesOnX;
+	cameraPosition.y += anglesOnY;
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluPerspective(45.0, 1000 / 1000, 1.0, 10000.0f);
-	glTranslatef(0.0f, 0.0f, zoom);
+	glTranslatef(0.0f, 0.0f, cameraPosition.z);
+	glRotatef(cameraPosition.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(cameraPosition.y, 0.0f, 1.0f, 0.0f);
 }
 
 void World::render()
-{
+{	
+	
+
 	moonlander.checkEngines(control);
 	/*if (position <= -70.0f)
 	{
@@ -102,6 +108,8 @@ void World::render()
 
 	//drawing ground
 	manuallyDrawnShapes[1]->draw();
+	manuallyDrawnShapes[2]->draw();
+	
 
 }
 
@@ -156,5 +164,5 @@ void World::populate()
 	//pod³o¿e
 	manuallyDrawnShapes.push_back(new Rectangle1());
 	
-
+	manuallyDrawnShapes.push_back(new Cone(new Vector3f(50.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), 50.0f, 0.0f, 30.0f, 20));
 }

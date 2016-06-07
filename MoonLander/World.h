@@ -24,7 +24,7 @@ public:
 	float position;
 	Vector3f shipVelocity;
 	bool control[5];
-	void changeCamera(int zooming);
+	void changeCamera(int anglesOnX, int anglesOnY, int zooming);
 	Vector3f getVelocity();
 	float getFuel();
 	Vector3f getPosition();
@@ -40,10 +40,9 @@ private:
 	float velocity = 0;
 	float shipA = 3.00f;
 	float shipV = 0;
-	float zoom;
+	Vector3f cameraPosition;
 	bool refuel;
 	MoonLander moonlander;
-	
 	
 };
 

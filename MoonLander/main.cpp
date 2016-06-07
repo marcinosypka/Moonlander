@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <windows.h> // Window defines
+#include <windowsx.h>
 #include <AntTweakBar.h>
 #include <gl\gl.h> 
 #include <gl\glu.h> 
@@ -26,6 +27,9 @@ bool w = false;
 bool s = false;
 bool a = false;
 bool d = false;
+
+int mousePosX = 0.0f;
+int mousePosY = 0.0f;
 // Opis tekstury
 BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
@@ -229,7 +233,7 @@ void ChangeSize(GLsizei w, GLsizei h)
 	glViewport(0, 0, w, h);
 
 	// Reset coordinate system
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	// Establish clipping volume (left, right, bottom, top, near, far)
@@ -343,15 +347,14 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Save the matrix state and do the rotations
-	glPushMatrix();
-	glRotatef(xRot, 1.0f, 0.0f, 0.0f);
-	glRotatef(yRot, 0.0f, 1.0f, 0.0f);
+	//glPushMatrix();
+	//glRotatef(xRot, 1.0f, 0.0f, 0.0f);
+	//glRotatef(yRot, 0.0f, 1.0f, 0.0f);
 
 	/////////////////////////////////////////////////////////////////
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
-	ukladWspolrzednych();
-
+	//ukladWspolrzednych();
 	world->render();
 	TwDraw();
 	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
@@ -793,19 +796,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			world->tryRefuel();
 
 
-
-
-
-		if (wParam == VK_NUMPAD1)
-		{
-			world->changeCamera(-20.0f);
-		}
-
-		if (wParam == VK_NUMPAD3)
-		{
-			world->changeCamera(20.0f);
-		}
-
 		xRot = GLfloat((const int)xRot % 360);
 		yRot = GLfloat((const int)yRot % 360);
 
@@ -833,7 +823,37 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			s = false;
 	}
 
+	case WM_MOUSEMOVE:
+	{
+		int posX = GET_X_LPARAM(lParam);
+		int posY = GET_Y_LPARAM(lParam);
 
+		if (GetKeyState(VK_LBUTTON) & 0x80)
+		{
+			if (posX > mousePosX)
+				world->changeCamera(0.0f, 1.0f, 0.0f);
+			if (posX < mousePosX)
+				world->changeCamera(0.0f, -1.0f, 0.0f);
+			if (posY > mousePosY)
+				world->changeCamera(1.0f, 0.0f, 0.0f);
+			if (posY < mousePosY)
+				world->changeCamera(-1.0f, 0.0f, 0.0f);
+		}
+
+		mousePosX = posX;
+		mousePosY = posY;
+	}
+	break;
+
+	case WM_MOUSEWHEEL:
+	{
+		int x = GET_Y_LPARAM(wParam);
+		if (x > 0)
+			world->changeCamera(0.0f, 0.0f, 20.0f);
+		if (x < 0)
+			world->changeCamera(0.0f, 0.0f, -20.0f);
+	}
+	break;
 	// A menu command
 	case WM_COMMAND:
 	{
