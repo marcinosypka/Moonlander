@@ -49,6 +49,8 @@ private:
 	Vector3f cameraPosition;
 	bool refuel;
 	MoonLander moonlander;
-	
+
+	Vector3f goal;
+	void setRandomGoal();
 };
 

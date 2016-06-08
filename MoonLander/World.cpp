@@ -1,5 +1,5 @@
 #include "World.h"
-
+#include <time.h>
 //http://anttweakbar.sourceforge.net/doc/
 
 World::World()
@@ -13,6 +13,8 @@ World::World()
 	position = 0.0f; 
 	refuel = false;
 	manualShapes = 0;
+
+	srand((unsigned)time(NULL));
 
 }
 
@@ -190,8 +192,22 @@ void World::populate()
 			manualShapes++;
 		}
 	
-
+	setRandomGoal();
 	
 	manuallyDrawnShapes.push_back(new Cone(new Vector3f(50.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), 50.0f, 0.0f, 30.0f, 20));
+	manualShapes++;
+}
+
+void World::setRandomGoal()
+{
+	
+	goal.x = (rand() % 2000) - 1000;
+
+	goal.y = -30.0f;
+
+	goal.z = (rand() % 2000) - 1000;
+
+
+	manuallyDrawnShapes.push_back(new Cone(new Vector3f(goal.x, goal.y, goal.z), new Vector3f(0.8f, 0.0f, 0.1f), 10.0f, 100.0f, 120.0f, 32));
 	manualShapes++;
 }

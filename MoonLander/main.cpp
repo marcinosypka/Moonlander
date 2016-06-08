@@ -12,6 +12,17 @@
 #include "vector3f.h"
 #include "World.h"
 #include "Tools.h"
+#include "gl2.h"
+#include "model_obj.h"
+
+#define IDR_SHADER2              1000
+#define IDR_SHADER3           1001
+
+ModelOBJ ladownik;
+
+GLuint              g_nullTexture;
+GLuint              g_blinnPhongShader;
+GLuint              g_normalMappingShader;
 
 const LPCTSTR lpszAppName = (LPCTSTR)"MoonLander";
 static HINSTANCE hInstance;
@@ -857,10 +868,13 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 		int posX = GET_X_LPARAM(lParam);
 		int posY = GET_Y_LPARAM(lParam);
+		float xAngle = 0.2f;
+		float yAngle = 0.2f;
 		int angle = 1.0f;
 
 		if (GetKeyState(VK_LBUTTON) & 0x80)
 		{
+			/*
 			if (posX > mousePosX)
 				world->changeCamera(0.0f, angle, 0.0f);
 			if (posX < mousePosX)
@@ -868,7 +882,9 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			if (posY > mousePosY)
 				world->changeCamera(angle, 0.0f, 0.0f);
 			if (posY < mousePosY)
-				world->changeCamera(-angle, 0.0f, 0.0f);
+				world->changeCamera(-angle, 0.0f, 0.0f);*/
+
+			world->changeCamera((posY - mousePosY)*yAngle, (posX - mousePosX)*xAngle, 0.0f); 
 		}
 
 		mousePosX = posX;
