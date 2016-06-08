@@ -18,7 +18,7 @@
 #define IDR_SHADER2              1000
 #define IDR_SHADER3           1001
 
-ModelOBJ ladownik;
+//ModelOBJ ladownik;
 
 GLuint              g_nullTexture;
 GLuint              g_blinnPhongShader;
@@ -40,6 +40,8 @@ bool a = false;
 bool d = false; 
 GLuint texture;
 std::string nazwa;
+int highscore;
+int score;
 
 int mousePosX = 0.0f;
 int mousePosY = 0.0f;
@@ -520,11 +522,11 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 		hInstance,
 		NULL);
 	TwInit(TW_OPENGL, NULL);
-	TwWindowSize(1000,1000);
+	TwWindowSize(800,800);
 	
 	TwBar *bar;
 	bar = TwNewBar("Moonlander");
-
+	TwDefine(" Moonlander size='240 400' ");
 	TwDefine(" Moonlander text=dark refresh=0.1 ");
 	TwAddSeparator(bar, NULL, " group='Velocity' ");
 	TwAddVarRO(bar, "Velocity[m/s]", TW_TYPE_FLOAT, &velocity,"precision=1");
@@ -541,6 +543,10 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	TwAddVarRO(bar, "x", TW_TYPE_FLOAT, &position.x, "precision=1");
 	TwAddVarRO(bar, "y", TW_TYPE_FLOAT, &position.y, "precision=1");
 	TwAddVarRO(bar, "z", TW_TYPE_FLOAT, &position.z, "precision=1");
+	TwAddSeparator(bar, NULL, " group='--------------------------------' ");
+	TwAddVarRO(bar, "Actual score:", TW_TYPE_INT32, &score, "");
+	TwAddVarRO(bar, "Highscore:", TW_TYPE_INT32, &highscore, "");
+
 	// If window was not created, quit
 	if (hWnd == NULL)
 		return FALSE;
@@ -710,6 +716,11 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		velocityx = v.x / 2;
 		velocityz = v.z / 2;
 		height = position.y / 20;
+		score = world->getHighscore();
+		if (score > highscore)
+		{
+			highscore = score;
+		}
 		RenderScene();
 
 		SwapBuffers(hDC);

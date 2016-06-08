@@ -13,18 +13,24 @@ World::World()
 	position = 0.0f; 
 	refuel = false;
 	manualShapes = 0;
-
+	targets = 0;
+	highscore = 0;
 	srand((unsigned)time(NULL));
 
 }
-
+int World::getHighscore()
+{
+	return highscore;
+}
 float World::getFuel()
 {
 	return moonlander.fuelLeft();
 }
 void World::tryRefuel()
 {
-	if ((moonlander.position()).y == 0)
+
+		targets = 0;
+		highscore = 0;
 		moonlander.refuel();
 }
 
@@ -90,6 +96,14 @@ void World::render()
 	position += timestep * (velocity + timestep * gravity / 2);
 	*/
 	moonlander.calcPosition();
+	if (((moonlander.pos.x - goal.x)*(moonlander.pos.x - goal.x) + (moonlander.pos.z - goal.z)*(moonlander.pos.z - goal.z) <= 120 * 120) && moonlander.pos.y == 0)
+	{
+		setRandomGoal();
+	}
+	if ((moonlander.fuelLeft() < 0) && (moonlander.pos.y == 0))
+	{
+		tryRefuel();
+	}
 	for (int i = 0; i < automaticallyDrawnShapes.size(); i++)
 	{
 		//tutaj powinny siê rysowaæ tylko obiekty których nie trzeba modyfikowaæ w ¿aden sposób
@@ -191,16 +205,8 @@ void World::populate()
 			manuallyDrawnShapes.push_back(new Rectangle1(new Vector3f(-950 +(i *100), -30.f, -950 + (j * 100)), new Vector3f(0.5, 0.5, 0.5),50,0,50));
 			manualShapes++;
 		}
-	
-	setRandomGoal();
-	
-	manuallyDrawnShapes.push_back(new Cone(new Vector3f(50.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), 50.0f, 0.0f, 30.0f, 20));
-	manualShapes++;
-}
 
-void World::setRandomGoal()
-{
-	
+
 	goal.x = (rand() % 2000) - 1000;
 
 	goal.y = -30.0f;
@@ -210,4 +216,23 @@ void World::setRandomGoal()
 
 	manuallyDrawnShapes.push_back(new Cone(new Vector3f(goal.x, goal.y, goal.z), new Vector3f(0.8f, 0.0f, 0.1f), 10.0f, 100.0f, 120.0f, 32));
 	manualShapes++;
+
+}
+
+void World::setRandomGoal()
+{
+	manuallyDrawnShapes.pop_back();
+
+	targets++;
+	highscore += getFuel() * targets;
+
+	goal.x = (rand() % 2000) - 1000;
+
+	goal.y = -30.0f;
+
+	goal.z = (rand() % 2000) - 1000;
+
+
+	manuallyDrawnShapes.push_back(new Cone(new Vector3f(goal.x, goal.y, goal.z), new Vector3f(0.8f, 0.0f, 0.1f), 10.0f, 100.0f, 120.0f, 32));
+
 }

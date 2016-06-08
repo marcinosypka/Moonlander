@@ -31,12 +31,16 @@ public:
 	float getFuel();
 	Vector3f getPosition();
 	void tryRefuel();
+	int getHighscore();
+
 
 	
 
 private:
 	std::vector<Shape*> automaticallyDrawnShapes;
 	std::vector<Shape*> manuallyDrawnShapes;
+	int highscore;
+	int targets;
 	float gravity;
 	float timestep;
 	float velocity = 0;
@@ -49,7 +53,6 @@ private:
 	Vector3f cameraPosition;
 	bool refuel;
 	MoonLander moonlander;
-
 	Vector3f goal;
 	void setRandomGoal();
 };
