@@ -9,6 +9,7 @@
 #include "Tools.h"
 #include "SolarPanel.h"
 #include "MoonLander.h"
+//#include "model_obj.h"
 
 
 class World
@@ -25,7 +26,7 @@ public:
 	float position;
 	Vector3f shipVelocity;
 	bool control[5];
-	void changeCamera(int anglesOnX, int anglesOnY, int zooming);
+	void changeCamera(float anglesOnX, float anglesOnY, int zooming);
 	Vector3f getVelocity();
 	float getFuel();
 	Vector3f getPosition();

@@ -28,8 +28,8 @@ bool s = false;
 bool a = false;
 bool d = false;
 
-int mousePosX = 0.0f;
-int mousePosY = 0.0f;
+float mousePosX = 0.0f;
+float mousePosY = 0.0f;
 // Opis tekstury
 BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
@@ -825,12 +825,16 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_MOUSEMOVE:
 	{
-		int posX = GET_X_LPARAM(lParam);
-		int posY = GET_Y_LPARAM(lParam);
-		int angle = 1.0f;
+		float posX = GET_X_LPARAM(lParam);
+		float posY = GET_Y_LPARAM(lParam);
+	
+		float angle = 3.0f;
+		float xAngle = 0.2f;
+		float yAngle =0.2f;
 
 		if (GetKeyState(VK_LBUTTON) & 0x80)
 		{
+			
 			if (posX > mousePosX)
 				world->changeCamera(0.0f, angle, 0.0f);
 			if (posX < mousePosX)
@@ -838,11 +842,15 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			if (posY > mousePosY)
 				world->changeCamera(angle, 0.0f, 0.0f);
 			if (posY < mousePosY)
-				world->changeCamera(-angle, 0.0f, 0.0f);
+				world->changeCamera(-angle, 0.0f, 0.0f); 
+
+			//world->changeCamera((posY - mousePosY)*yAngle, (posX - mousePosX)*xAngle, 0.0f);
+
 		}
 
 		mousePosX = posX;
 		mousePosY = posY;
+		
 	}
 	break;
 

@@ -12,6 +12,7 @@ World::World()
 	shipVelocity.z = 0.0f;
 	position = 0.0f; 
 	refuel = false;
+
 }
 
 float World::getFuel()
@@ -40,10 +41,17 @@ void World::initiate()
 
 }
 
-void World::changeCamera(int xAngles, int yAngles, int zooming)
+void World::changeCamera(float xAngles, float yAngles, int zooming)
 {
 	anglesOnX += xAngles;
+	if (anglesOnX < 0.0f)
+		anglesOnX = 0.0f;
+	if (anglesOnX > 90.0f)
+		anglesOnX = 90.0f;
+
 	anglesOnY += yAngles;
+	
+
 	zoom += zooming;
 	
 	
@@ -64,6 +72,7 @@ void World::updateCamera()
 void World::render()
 {	
 	updateCamera();
+
 
 	moonlander.checkEngines(control);
 	/*if (position <= -70.0f)
