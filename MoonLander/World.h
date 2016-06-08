@@ -45,6 +45,7 @@ private:
 	float anglesOnX = 0.0f;
 	float anglesOnY = 0.0f;
 	float zoom = 400.0f;
+	int manualShapes;
 	Vector3f cameraPosition;
 	bool refuel;
 	MoonLander moonlander;

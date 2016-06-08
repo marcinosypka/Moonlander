@@ -15,7 +15,7 @@ Rectangle1::Rectangle1() {
 	this->height = 0;
 	this->depth = 10000;
 
-	texture = new Texture("Bitmapy\\Moon.bmp");
+
 }
 Rectangle1::~Rectangle1() {
 	delete position;
@@ -27,21 +27,22 @@ void Rectangle1::draw() {
 	glColor3fv(color->toArray());
 	//glColor3f(1.0f, 1.0f, 1.0f);
 
-	texture->SetLocalTexture();
 
-	//glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_TEXTURE_2D);
 	glFrontFace(GL_CCW);
-	glBegin(GL_POLYGON);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
 	glVertex3f(position->x - width, position->y, position->z + depth);
-	//glTexCoord2d(0.0, 0.0);
+	glTexCoord2d(0, 1);
 	glVertex3f(position->x + width, position->y, position->z + depth);
-	//glTexCoord2d(0.0, 1.0);
+	glTexCoord2d(1, 1);
 	glVertex3f(position->x + width, position->y, position->z - depth);
-	//glTexCoord2d(1.0, 1.0);
+	glTexCoord2d(1, 0);
 	glVertex3f(position->x - width, position->y, position->z - depth);
-	//glTexCoord2d(1.0, 0.0);
+	
 	glEnd();
 
-	//glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);
 
 }

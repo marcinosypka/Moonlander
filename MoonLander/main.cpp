@@ -26,14 +26,16 @@ bool spisSet = false;
 bool w = false;
 bool s = false;
 bool a = false;
-bool d = false;
+bool d = false; 
+GLuint texture;
+std::string nazwa;
 
-float mousePosX = 0.0f;
-float mousePosY = 0.0f;
+int mousePosX = 0.0f;
+int mousePosY = 0.0f;
 // Opis tekstury
 BITMAPINFOHEADER	bitmapInfoHeader;	// nag3ówek obrazu
 unsigned char*		bitmapData;			// dane tekstury
-unsigned int		texture[2];			// obiekt tekstury
+//unsigned int		texture[2];			// obiekt tekstury
 										
 // Color Palette handle
 HPALETTE hPalette = NULL;
@@ -50,7 +52,6 @@ BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 // Set Pixel Format function - forward declaration
 void SetDCPixelFormat(HDC hDC);
-
 
 
 void ukladWspolrzednych(void) {
@@ -355,6 +356,9 @@ void RenderScene(void)
 	// MIEJSCE NA KOD OPENGL DO TWORZENIA WLASNYCH SCEN:		   //
 	/////////////////////////////////////////////////////////////////
 	//ukladWspolrzednych();
+
+
+
 	world->render();
 	TwDraw();
 	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
@@ -582,26 +586,52 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		hRC = wglCreateContext(hDC);
 		wglMakeCurrent(hDC, hRC);
 		SetupRC();
-		
-		glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 
-														// 3aduje pierwszy obraz tekstury:
-		bitmapData = LoadBitmapFile("Bitmapy\\checker.bmp", &bitmapInfoHeader);
 
-		glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
+		nazwa = "Moon.bmp";
+		const char* bitmapFileName;
+		bitmapFileName =nazwa.c_str();
+		glGenTextures(1, &texture);                  // tworzy obiekt tekstury			
+													 // 3aduje pierwszy obraz tekstury:
+		bitmapData = LoadBitmapFile((char*)bitmapFileName, &bitmapInfoHeader);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glBindTexture(GL_TEXTURE_2D, texture);       // aktywuje obiekt tekstury
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		// tworzy obraz tekstury
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
 			bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 
-		if (bitmapData)
-			free(bitmapData);
+		//if (bitmapData)
+		//free(bitmapData);
+/*
+		GLuint texture;
+		int width, height;
+		unsigned char* image;
+		// Load textures
+		glGenTextures(1, &texture);
+		image = LoadBitmapFile("Bitmapy//Moon.bmp",&bitmapInfoHeader);
+		
+
+		// select our current texture
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		// select modulate to mix texture with color for shading
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
+			bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+	
+	*/
 			
 		// 3aduje drugi obraz tekstury:
 		/*
@@ -624,7 +654,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			*/
 
 		// ustalenie sposobu mieszania tekstury z t3em
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		break;
 
 		// Window is being destroyed, cleanup
@@ -825,16 +855,12 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_MOUSEMOVE:
 	{
-		float posX = GET_X_LPARAM(lParam);
-		float posY = GET_Y_LPARAM(lParam);
-	
-		float angle = 3.0f;
-		float xAngle = 0.2f;
-		float yAngle =0.2f;
+		int posX = GET_X_LPARAM(lParam);
+		int posY = GET_Y_LPARAM(lParam);
+		int angle = 1.0f;
 
 		if (GetKeyState(VK_LBUTTON) & 0x80)
 		{
-			
 			if (posX > mousePosX)
 				world->changeCamera(0.0f, angle, 0.0f);
 			if (posX < mousePosX)
@@ -842,15 +868,11 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 			if (posY > mousePosY)
 				world->changeCamera(angle, 0.0f, 0.0f);
 			if (posY < mousePosY)
-				world->changeCamera(-angle, 0.0f, 0.0f); 
-
-			//world->changeCamera((posY - mousePosY)*yAngle, (posX - mousePosX)*xAngle, 0.0f);
-
+				world->changeCamera(-angle, 0.0f, 0.0f);
 		}
 
 		mousePosX = posX;
 		mousePosY = posY;
-		
 	}
 	break;
 

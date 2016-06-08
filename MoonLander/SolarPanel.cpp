@@ -9,7 +9,7 @@ SolarPanel::SolarPanel()
 	this->height = 20;
 	this->depth = 5;
 
-	texture = new Texture("Bitmapy\\Panel.bmp");
+	//texture = new Texture("Moon.bmp");
 }
 
 
@@ -61,7 +61,7 @@ void SolarPanel::draw()
 
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	texture->SetLocalTexture();
+
 	glEnable(GL_TEXTURE_2D);
 	glFrontFace(GL_CW);
 	glBegin(GL_POLYGON);
@@ -76,5 +76,5 @@ void SolarPanel::draw()
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
-
+//
 }

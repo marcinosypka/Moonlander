@@ -12,6 +12,7 @@ World::World()
 	shipVelocity.z = 0.0f;
 	position = 0.0f; 
 	refuel = false;
+	manualShapes = 0;
 
 }
 
@@ -124,8 +125,11 @@ void World::render()
 	glPopMatrix();
 
 	//drawing ground
-	manuallyDrawnShapes[1]->draw();
-	manuallyDrawnShapes[2]->draw();
+	for (int i = 1; i <= manualShapes; i++)
+	{
+		manuallyDrawnShapes[i]->draw();
+	}
+	//manuallyDrawnShapes[2]->draw();
 	
 
 }
@@ -179,7 +183,15 @@ void World::populate()
 	manuallyDrawnShapes.push_back(shape);
 
 	//pod³o¿e
-	manuallyDrawnShapes.push_back(new Rectangle1());
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+		{
+			manuallyDrawnShapes.push_back(new Rectangle1(new Vector3f(-950 +(i *100), -30.f, -950 + (j * 100)), new Vector3f(0.5, 0.5, 0.5),50,0,50));
+			manualShapes++;
+		}
+	
+
 	
 	manuallyDrawnShapes.push_back(new Cone(new Vector3f(50.0f, 0.0f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), 50.0f, 0.0f, 30.0f, 20));
+	manualShapes++;
 }
